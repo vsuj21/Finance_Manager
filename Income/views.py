@@ -1,7 +1,10 @@
 from django.shortcuts import redirect, render
 from .models import Income, Income_Category
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 # Create your views here.
+
+@login_required(login_url='/authentication/login')
 def index(request):
     
     incomes = Income.objects.filter(owner=request.user)

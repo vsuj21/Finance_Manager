@@ -6,8 +6,18 @@
     
     <div class="card-body">
 
-        <h1>Login</h1>
-    </div>
+        <h1>Register</h1>
+        <br></br>
+        <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+    <form action="", method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input class="form-control" id="username" name="username" type="text" required />
+
+    </form>
+
+</div>
 </div>
 
 {% endblock %}
