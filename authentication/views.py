@@ -22,7 +22,7 @@ def register_user(request):
                 return render(request, 'authentication/register.html')
             else:
                 if User.objects.filter(email=email).exists():
-                    messages.error(request, 'Email is already taken')
+                    messages.error(request, 'Email is already in use')
                     return render(request, 'authentication/register.html')
                 else:
                     user = User.objects.create_user(username=username, email=email, password=password1)
