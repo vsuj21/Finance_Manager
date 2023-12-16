@@ -2,7 +2,10 @@ from django.shortcuts import redirect, render
 from .models import Expense, Category
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 # Create your views here.
+
+@login_required(login_url='login')
 def index(request):
     Categories = Category.objects.all()
     expenses = Expense.objects.filter(owner=request.user)
