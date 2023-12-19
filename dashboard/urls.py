@@ -1,6 +1,8 @@
 from django.urls import path
-from .views import index
+from .import views
 
 urlpatterns = [
-    path('', index, name='dashboard'),
+    path('', views.dashboard, name='dashboard'),
+    path('dashboard/<str:filter_type>/', views.index, name='index'),
 ]
+

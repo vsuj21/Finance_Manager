@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Income Visualization</h2>
+
+  <div>
+    <label for="filter">Filter:</label>
+    <select id="filter">
+      
+      <option value="last_month">Last Month</option>
+      <option value="past_six_months">Past Six Months</option>
+      <option value="last_year">Last Year</option>
+      <option value="all">All Time</option>
+    </select>
+    <button onclick="updateCharts()">Update</button>
+  </div>
+  
+  
+  
+  
+  <div class ="row">
+    <p>Incomes by Category</p> 
+  <div style="width: 30%;">
+    
+    <canvas id="pieChart"></canvas>
+  </div>
+
+  <div style="width: 50%;">
+    
+    <canvas id="barGraph"></canvas>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    function updateCharts() {
+      var filterType = document.getElementById('filter').value;
+      fetch(`${filterType}/`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(data => {
+          data = JSON.parse(data);
+          if (data.income_labels.length === 0) {
+            alert('No data available for the selected filter.');
+            return;
+          }
+          else{
+          updatePieChart(data.income_labels, data.income_data);
+          updateBarGraph(data.income_labels, data.income_data);}
+        })
+        .catch(error => {
+          console.error('Error during fetch:', error);
+        });
+    }
+    
+    
+    function updatePieChart(labels, data) {
+      const aggregatedData = aggregateData(labels, data);
+      
+      updateChart('pieChart', 'pie', aggregatedData.labels, aggregatedData.data);
+   }
+   
+   function updateBarGraph(labels, data) {
+    const aggregatedData = aggregateData(labels, data);
+  
+    updateChart('barGraph', 'bar', aggregatedData.labels, aggregatedData.data);
+  }
+   
+   function updateChart(canvasId, chartType, labels, data) {
+      const ctx = document.getElementById(canvasId).getContext('2d');
+      if (window[canvasId] && typeof window[canvasId].destroy === 'function') {
+        window[canvasId].destroy();
+    }
+      window[canvasId] = new Chart(ctx, {
+         type: chartType,
+         data: {
+            labels: labels,
+            datasets: [{
+                label: 'Income',
+               data: data,
+               backgroundColor: getRandomColors(data.length),
+            }],
+         },
+      });
+   }
+   function aggregateData(labels, data) {
+    const uniqueLabels = [...new Set(labels)]; // Get unique labels
+    const aggregatedData = {
+      labels: uniqueLabels,
+      data: Array(uniqueLabels.length).fill(0),
+    };
+  
+    // Sum values for each unique label
+    labels.forEach((label, index) => {
+      const labelIndex = uniqueLabels.indexOf(label);
+      aggregatedData.data[labelIndex] += data[index];
+    });
+  
+    return aggregatedData;
+  }
+
+    function getRandomColors(count) {
+      var colors = [];
+      for (var i = 0; i < count; i++) {
+        var randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+        colors.push(randomColor);
+      }
+      return colors;
+    }
+    var context = JSON.parse('{{context | escapejs}}');
+    if (context.income_labels.length === 0) {
+      alert('Income data not available, please add some income first.');
+      window.location.href = '/incomes';
+    }
+    else{
+    updatePieChart(context.income_labels, context.income_data); 
+    updateBarGraph(context.income_labels, context.income_data);
+  }
+  </script>
+</div>
+
+{% endblock %}

@@ -14,7 +14,7 @@ class Income(models.Model):
         return self.title
 
     class Meta:
-        ordering: ['-date']
+        ordering= ['-date']
 
 class Income_Category(models.Model):
     name = models.CharField(max_length=255)

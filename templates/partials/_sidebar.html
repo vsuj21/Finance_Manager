@@ -1,4 +1,5 @@
 {% load static %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <div class="sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary">
     <div class="offcanvas-md offcanvas-end bg-body-tertiary" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
       <div class="offcanvas-header">
@@ -26,15 +27,15 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2" href="#">
+            <a class="nav-link d-flex align-items-center gap-2" href="{%url 'income_vis'%}">
               <svg class="bi"><use xlink:href="#people"/></svg>
-              Summary
+              Income Summary
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2" href="#">
+            <a class="nav-link d-flex align-items-center gap-2" href="{% url 'expense_vis'%}">
               <svg class="bi"><use xlink:href="#graph-up"/></svg>
-              Reports
+              Expense Summary
             </a>
           </li>
           
@@ -46,12 +47,7 @@
         <hr class="my-3">
 
         <ul class="nav flex-column mb-auto">
-          <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2" href="#">
-              <svg class="bi"><use xlink:href="#gear-wide-connected"/></svg>
-              Settings
-            </a>
-          </li>
+          
           <li class="nav-item">
             <a class="nav-link d-flex align-items-center gap-2" href="{%url 'signout'%}">
               <svg class="bi"><use xlink:href="#door-closed"/></svg>
@@ -63,3 +59,5 @@
 
     </div>
 </div>
+<script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://unpkg.com/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>

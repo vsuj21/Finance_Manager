@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.views import View
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
@@ -39,7 +39,7 @@ def login_user(request):
         auth = authenticate(request, username=username, password=password)
         if auth is not None:
             login(request, auth)
-            return render(request, 'dashboard/index.html')
+            return redirect('dashboard/')
         else:
             messages.error(request, 'Invalid Credentials, Try Again!')
             return render(request, 'authentication/login.html')
