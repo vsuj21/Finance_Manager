@@ -6,6 +6,7 @@ distlib==0.3.7
 dj-database-url==2.1.0
 Django==4.2.7
 django-heroku==0.3.1
+django-utils==0.0.2
 filelock==3.13.1
 fonttools==4.44.3
 kiwisolver==1.4.5
